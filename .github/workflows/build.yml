@@ -21,6 +21,12 @@ jobs:
         distribution: 'zulu'
         cache: 'gradle'
 
+    - name: Generate Gradle Wrapper (If Missing)
+      run: |
+        if [ ! -f gradlew ]; then
+          gradle wrapper --gradle-version 8.7
+        fi
+
     - name: Grant Execute Permission for Gradlew
       run: chmod +x gradlew
 
