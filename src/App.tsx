@@ -74,7 +74,10 @@ export default function App() {
       {/* Sidebar */}
       <aside className="hidden md:flex w-80 shrink-0 border-l border-dim-gray flex-col p-8 justify-between bg-gradient-to-b from-black via-[#050505] to-[#0A0A0A]">
         <div>
-          <h1 className="font-serif text-4xl mb-10 tracking-tight bg-clip-text text-transparent bg-gradient-to-l from-white to-white/60">مفكرة الوجود</h1>
+          <div className="mb-8 flex flex-col items-center">
+            <img src="input_file_0.png" alt="Existential Journal Logo" className="w-32 h-32 mb-4 object-contain rounded-2xl" />
+            <h1 className="font-serif text-3xl tracking-tight bg-clip-text text-transparent bg-gradient-to-l from-white to-white/60">مفكرة الوجود</h1>
+          </div>
           
           <div className="p-6 rounded-xl bg-gradient-to-br from-white/[0.04] to-transparent border border-white/[0.08] mb-10 group transition-all hover:border-white/20">
             <p className="font-serif text-xl leading-relaxed italic text-[#E0E0E0]">"{dailyQuote.text}"</p>

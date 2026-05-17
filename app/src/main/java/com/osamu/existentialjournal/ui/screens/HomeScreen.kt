@@ -90,21 +90,50 @@ fun HomeScreen(
             }
 
             Column(modifier = Modifier.padding(horizontal = 24.dp)) {
-                // Header
-                Row(
+                // Branded Header
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 8.dp, bottom = 24.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                        .padding(vertical = 32.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    Surface(
+                        modifier = Modifier.size(80.dp),
+                        color = Color.White.copy(alpha = 0.05f),
+                        shape = RoundedCornerShape(20.dp),
+                        border = BorderStroke(0.5.dp, Color.White.copy(alpha = 0.1f))
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Text(
+                                text = "Ω",
+                                color = Color.White,
+                                fontSize = 32.sp,
+                                fontWeight = FontWeight.ExtraLight,
+                                fontFamily = FontFamily.Serif
+                            )
+                        }
+                    }
+                    
+                    Spacer(modifier = Modifier.height(16.dp))
+                    
                     Text(
                         text = "مفكرة الوجود",
                         color = Color.White,
-                        fontSize = 32.sp,
+                        fontSize = 28.sp,
                         fontWeight = FontWeight.Bold,
-                        fontFamily = FontFamily.Serif
+                        fontFamily = FontFamily.Serif,
+                        letterSpacing = (-1).sp
                     )
+                }
+
+                // Header Action Bar
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 24.dp),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     IconButton(onClick = onSettingsClick) {
                         Icon(
                             imageVector = Icons.Default.Settings,
@@ -135,23 +164,31 @@ fun HomeScreen(
                         horizontalAlignment = Alignment.Start
                     ) {
                         Text(
+                            text = "فلسفة اليوم",
+                            color = Color.White.copy(alpha = 0.4f),
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 2.sp,
+                            modifier = Modifier.padding(bottom = 16.dp)
+                        )
+                        
+                        Text(
                             text = "“${quote.text}”",
                             color = Color(0xFFE0E0E0),
-                            fontSize = 20.sp,
+                            fontSize = 18.sp,
                             textAlign = TextAlign.Start,
-                            lineHeight = 32.sp,
+                            lineHeight = 28.sp,
                             fontFamily = FontFamily.Serif,
                             fontStyle = FontStyle.Italic
                         )
-                        Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.height(12.dp))
                         Text(
                             text = "— ${quote.author}",
                             color = Color.White.copy(alpha = 0.4f),
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
-                            letterSpacing = 1.sp,
-                            textAlign = TextAlign.End,
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.End
                         )
                     }
                 }
