@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&family=Inter:wght@300;400;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Amiri', serif;
+  
+  --color-amoled-black: #000000;
+  --color-ink-white: #FFFFFF;
+  --color-dim-gray: #1A1A1A;
+  --color-text-muted: #888888;
+  
+  --background-accent-glow: rgba(255, 255, 255, 0.05);
+
+  --gradient-dark: linear-gradient(180deg, #000000 0%, #0A0A0A 100%);
+  --gradient-surface: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+}
+
+@layer base {
+  body {
+    @apply bg-amoled-black text-ink-white font-sans antialiased bg-[fixed];
+    background-image: var(--gradient-dark);
+    direction: rtl;
+  }
+}
+
+.markdown-body {
+  @apply text-inherit;
+}

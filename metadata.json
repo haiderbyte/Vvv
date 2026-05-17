@@ -1,0 +1,6 @@
+{
+  "name": "مفكرة الوجود",
+  "description": "تطبيق لتدوين الأفكار الوجودية بتصميم بسيط وخصوصية تامة، يعمل بدون إنترنت.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
