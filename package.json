@@ -1,12 +1,20 @@
 {
-  "name": "existential-journal",
-  "version": "1.0.0",
-  "description": "Android Native App with Kotlin, Jetpack Compose and Room",
+  "name": "مفكرة-الوجود",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "build": "sh gradlew assembleDebug",
-    "test": "sh gradlew test"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+
   },
   "devDependencies": {
-    "prettier": "^3.0.0"
+    "@types/node": "^22.14.0",
+    
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
   }
 }
