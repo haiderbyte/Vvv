@@ -6,3 +6,9 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Gradle wrapper files - SHOULD be checked in
+!gradlew
+!gradlew.bat
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
