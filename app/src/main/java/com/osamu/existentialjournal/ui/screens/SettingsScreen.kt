@@ -28,6 +28,8 @@ fun SettingsScreen(onBack: () -> Unit) {
             modifier = Modifier
                 .fillMaxSize()
                 .background(backgroundGradient)
+                .windowInsetsPadding(WindowInsets.statusBars)
+                .windowInsetsPadding(WindowInsets.navigationBars)
                 .padding(horizontal = 24.dp)
                 .verticalScroll(rememberScrollState())
         ) {
@@ -70,26 +72,18 @@ fun SettingsScreen(onBack: () -> Unit) {
                     )
 
                     Text(
-                        text = "محمد حيدر (أوسامو دزاي)",
+                        text = "المطور: محمد حيدر (أوسامو دزاي) - مطور برمجيات أندرويد ومحاسب ذكي يجمع بين دقة الأرقام الإدارية وإبداع الأكواد البرمجية. مؤسس ومشرف قناة \"لم يعد إنساناً\" الوجودية.",
                         color = Color.White,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = androidx.compose.ui.text.font.FontFamily.Serif,
-                        modifier = Modifier.padding(bottom = 24.dp)
-                    )
-                    
-                    Text(
-                        text = "مطور برمجيات أندرويد ومحاسب ذكي يجمع بين دقة الأرقام الإدارية وإبداع الأكواد البرمجية. مطور خبير في نظام أندرويد وخاصة في تقنيات Jetpack Compose و Room Database، مهتم بأتمتة الأنظمة وتطوير البرمجيات المحلية (Local-first) التي تحترم خصوصية المستخدم وأداء الأجهزة.",
-                        color = Color.White.copy(alpha = 0.6f),
-                        fontSize = 16.sp,
+                        fontSize = 18.sp,
                         lineHeight = 28.sp,
-                        textAlign = TextAlign.Justify
+                        textAlign = TextAlign.Justify,
+                        fontFamily = androidx.compose.ui.text.font.FontFamily.Serif
                     )
                     
                     Spacer(modifier = Modifier.height(24.dp))
                     
                     Text(
-                        text = "مؤسس ومشرف على مجتمع وقناة \"لم يعد إنساناً\" (No Longer Human) الوجودية. تم بناء هذا التطبيق ليكون ملاذاً فكرياً نقياً، بعيداً عن صخب الإنترنت وضجيج الواجهات المزدحمة، ومصمم خصيصاً لمن يقدسون الهدوء والعمق والتأمل.",
+                        text = "تم بناء هذا التطبيق ليكون ملاذاً فكرياً نقياً، بعيداً عن صخب الإنترنت وضجيج الواجهات المزدحمة، ومصمم خصيصاً لمن يقدسون الهدوء والعمق والتأمل.",
                         color = Color.White.copy(alpha = 0.6f),
                         fontSize = 16.sp,
                         lineHeight = 28.sp,

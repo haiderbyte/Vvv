@@ -22,13 +22,13 @@ jobs:
         cache: 'gradle'
 
     - name: Generate Gradle Wrapper
-      run: gradle wrapper --gradle-version 9.5.1
+      run: gradle wrapper --gradle-version 8.9
 
-    - name: Grant Execute Permission for Gradlew
+    - name: Grant Execute Permission
       run: chmod +x gradlew
 
     - name: Build Debug APK
-      run: ./gradlew assembleDebug --stacktrace --info
+      run: ./gradlew assembleDebug --stacktrace --info --debug --no-daemon
 
     - name: Upload Debug APK Artifact
       uses: actions/upload-artifact@v4

@@ -26,11 +26,8 @@ import com.osamu.existentialjournal.data.JournalEntry
 import kotlinx.coroutines.flow.collectLatest
 import java.text.SimpleDateFormat
 import java.util.*
-
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.TileMode
 
@@ -61,6 +58,7 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(backgroundGradient)
+                .windowInsetsPadding(WindowInsets.statusBars)
         ) {
             // Status Bar Look (Immersive UI)
             Row(
@@ -227,7 +225,7 @@ fun HomeScreen(
                                 Box(modifier = Modifier.clickable { onEntryClick(entry.id) }) {
                                     JournalEntryItem(entry)
                                 }
-                                Divider(color = Color.White.copy(alpha = 0.05f), thickness = 0.5.dp)
+                                HorizontalDivider(color = Color.White.copy(alpha = 0.05f), thickness = 0.5.dp)
                             }
                         }
                     }

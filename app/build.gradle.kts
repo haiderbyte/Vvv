@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
 }
 
@@ -12,7 +11,7 @@ android {
     defaultConfig {
         applicationId = "com.osamu.existentialjournal"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -27,7 +26,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("debug") // For production, use real release config
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -40,20 +39,17 @@ android {
     buildFeatures {
         compose = true
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.10"
+    }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
             excludes += "META-INF/DEPENDENCIES"
-            excludes += "META-INF/LICENSE"
-            excludes += "META-INF/LICENSE.txt"
-            excludes += "META-INF/license.txt"
-            excludes += "META-INF/NOTICE"
-            excludes += "META-INF/NOTICE.txt"
-            excludes += "META-INF/notice.txt"
+            excludes += "META-INF/LICENSE*"
+            excludes += "META-INF/NOTICE*"
             excludes += "META-INF/ASL2.0"
             excludes += "META-INF/*.kotlin_module"
-            excludes += "META-INF/AL2.0"
-            excludes += "META-INF/LGPL2.1"
         }
     }
 }
@@ -63,14 +59,12 @@ configurations.all {
         force("androidx.room:room-runtime:2.6.1")
         force("androidx.room:room-ktx:2.6.1")
         force("androidx.room:room-common:2.6.1")
-        force("androidx.room:room-testing:2.6.1")
-        force("androidx.navigation:navigation-compose:2.8.4")
-        force("androidx.navigation:navigation-runtime:2.8.4")
-        force("androidx.navigation:navigation-common:2.8.4")
+        force("androidx.navigation:navigation-compose:2.7.7")
+        force("androidx.navigation:navigation-runtime:2.7.7")
+        force("androidx.navigation:navigation-common:2.7.7")
         force("androidx.sqlite:sqlite:2.4.0")
         force("androidx.sqlite:sqlite-framework:2.4.0")
-        force("org.jetbrains.kotlin:kotlin-stdlib:2.0.21")
-        force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.21")
+        force("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
     }
 }
 

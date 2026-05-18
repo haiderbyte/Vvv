@@ -47,6 +47,8 @@ fun AddEntryScreen(onBack: () -> Unit) {
             modifier = Modifier
                 .fillMaxSize()
                 .background(backgroundGradient)
+                .windowInsetsPadding(WindowInsets.statusBars)
+                .windowInsetsPadding(WindowInsets.navigationBars)
                 .padding(horizontal = 24.dp)
                 .imePadding()
                 .verticalScroll(rememberScrollState())
