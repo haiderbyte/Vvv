@@ -52,6 +52,8 @@ android {
             excludes += "META-INF/notice.txt"
             excludes += "META-INF/ASL2.0"
             excludes += "META-INF/*.kotlin_module"
+            excludes += "META-INF/AL2.0"
+            excludes += "META-INF/LGPL2.1"
         }
     }
 }
@@ -61,11 +63,14 @@ configurations.all {
         force("androidx.room:room-runtime:2.6.1")
         force("androidx.room:room-ktx:2.6.1")
         force("androidx.room:room-common:2.6.1")
+        force("androidx.room:room-testing:2.6.1")
         force("androidx.navigation:navigation-compose:2.8.4")
         force("androidx.navigation:navigation-runtime:2.8.4")
         force("androidx.navigation:navigation-common:2.8.4")
         force("androidx.sqlite:sqlite:2.4.0")
         force("androidx.sqlite:sqlite-framework:2.4.0")
+        force("org.jetbrains.kotlin:kotlin-stdlib:2.0.21")
+        force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.21")
     }
 }
 
