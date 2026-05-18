@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("kotlin-kapt")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -56,6 +56,19 @@ android {
     }
 }
 
+configurations.all {
+    resolutionStrategy {
+        force("androidx.room:room-runtime:2.6.1")
+        force("androidx.room:room-ktx:2.6.1")
+        force("androidx.room:room-common:2.6.1")
+        force("androidx.navigation:navigation-compose:2.8.4")
+        force("androidx.navigation:navigation-runtime:2.8.4")
+        force("androidx.navigation:navigation-common:2.8.4")
+        force("androidx.sqlite:sqlite:2.4.0")
+        force("androidx.sqlite:sqlite-framework:2.4.0")
+    }
+}
+
 dependencies {
     // Core
     implementation(libs.androidx.core.ktx)
@@ -76,7 +89,7 @@ dependencies {
     // Room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 
     // Lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.compose)
