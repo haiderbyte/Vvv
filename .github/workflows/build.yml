@@ -21,9 +21,6 @@ jobs:
         distribution: 'zulu'
         cache: 'gradle'
 
-    - name: Generate Gradle Wrapper
-      run: gradle wrapper --gradle-version 8.9
-
     - name: Grant Execute Permission
       run: chmod +x gradlew
 
