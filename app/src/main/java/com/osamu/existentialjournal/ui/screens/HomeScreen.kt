@@ -237,7 +237,8 @@ fun HomeScreen(
                         onClick = onAddClick,
                         modifier = Modifier
                             .align(Alignment.BottomStart) // Matches React left alignment
-                            .padding(bottom = 40.dp, start = 0.dp)
+                            .windowInsetsPadding(WindowInsets.navigationBars)
+                            .padding(bottom = 24.dp, start = 0.dp)
                             .size(64.dp),
                         containerColor = Color.White,
                         contentColor = Color.Black,
