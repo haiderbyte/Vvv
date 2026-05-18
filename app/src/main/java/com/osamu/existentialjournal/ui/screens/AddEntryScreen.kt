@@ -31,9 +31,7 @@ fun AddEntryScreen(onBack: () -> Unit) {
 
     var title by remember { mutableStateOf("") }
     var content by remember { mutableStateOf("") }
-    var selectedMood by remember { mutableStateOf("متأمل") }
-
-    val moods = listOf("هادئ", "متأمل", "منعزل", "غارق في الأفكار")
+    var selectedMood by remember { mutableStateOf(com.osamu.existentialjournal.data.MoodRepository.moods[1].label) }
 
     val backgroundGradient = androidx.compose.ui.graphics.Brush.verticalGradient(
         colors = listOf(Color.Black, Color(0xFF080808))
@@ -96,6 +94,61 @@ fun AddEntryScreen(onBack: () -> Unit) {
             }
 
             Spacer(modifier = Modifier.height(48.dp))
+
+            // Mood Selection
+            Text(
+                "الحالة الوجودية:",
+                color = Color.White.copy(alpha = 0.4f),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                com.osamu.existentialjournal.data.MoodRepository.moods.forEach { mood ->
+                    val isSelected = selectedMood == mood.label
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable { selectedMood = mood.label }
+                            .padding(vertical = 8.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(48.dp)
+                                .background(
+                                    if (isSelected) Color.White.copy(alpha = 0.1f) else Color.Transparent,
+                                    RoundedCornerShape(12.dp)
+                                )
+                                .border(
+                                    1.dp,
+                                    if (isSelected) Color.White.copy(alpha = 0.3f) else Color.White.copy(alpha = 0.05f),
+                                    RoundedCornerShape(12.dp)
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                mood.icon,
+                                contentDescription = mood.label,
+                                tint = if (isSelected) Color.White else Color.White.copy(alpha = 0.3f),
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            mood.label,
+                            color = if (isSelected) Color.White else Color.White.copy(alpha = 0.3f),
+                            fontSize = 10.sp,
+                            maxLines = 1
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
 
             // Title Field
             BasicTextField(

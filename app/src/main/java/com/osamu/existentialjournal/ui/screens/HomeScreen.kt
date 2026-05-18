@@ -5,9 +5,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.Brightness3
 import androidx.compose.material.icons.outlined.CompassCalibration
 import androidx.compose.material.icons.outlined.Cloud
@@ -23,12 +26,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.osamu.existentialjournal.data.JournalDatabase
 import com.osamu.existentialjournal.data.JournalEntry
+import com.osamu.existentialjournal.data.QuoteRepository
+import com.osamu.existentialjournal.data.MoodRepository
 import kotlinx.coroutines.flow.collectLatest
 import java.text.SimpleDateFormat
 import java.util.*
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.TileMode
 
 @Composable
@@ -42,7 +49,20 @@ fun HomeScreen(
     val dao = db.journalDao()
     
     val entries by dao.getAllEntries().collectAsState(initial = emptyList())
-    val quote = remember { getDailyQuote() }
+    var searchQuery by remember { mutableStateOf("") }
+    
+    val filteredEntries = remember(searchQuery, entries) {
+        if (searchQuery.isEmpty()) {
+            entries
+        } else {
+            entries.filter { 
+                it.title.contains(searchQuery, ignoreCase = true) || 
+                it.content.contains(searchQuery, ignoreCase = true)
+            }
+        }
+    }
+
+    val quote = remember { QuoteRepository.getDailyQuote() }
 
     val backgroundGradient = Brush.verticalGradient(
         colors = listOf(Color.Black, Color(0xFF080808)),
@@ -146,7 +166,7 @@ fun HomeScreen(
                 Surface(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 40.dp),
+                        .padding(bottom = 32.dp),
                     color = Color.Transparent, // Using background for gradient
                     shape = RoundedCornerShape(12.dp),
                     border = BorderStroke(0.5.dp, Color.White.copy(alpha = 0.1f))
@@ -191,6 +211,64 @@ fun HomeScreen(
                     }
                 }
 
+                // Search Bar
+                Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 32.dp),
+                    color = Color.White.copy(alpha = 0.03f),
+                    shape = RoundedCornerShape(16.dp),
+                    border = BorderStroke(0.5.dp, Color.White.copy(alpha = 0.07f))
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .padding(horizontal = 20.dp, vertical = 14.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = null,
+                            tint = Color.White.copy(alpha = 0.3f),
+                            modifier = Modifier.size(18.dp)
+                        )
+                        
+                        BasicTextField(
+                            value = searchQuery,
+                            onValueChange = { searchQuery = it },
+                            modifier = Modifier.weight(1f),
+                            textStyle = TextStyle(
+                                color = Color.White,
+                                fontSize = 15.sp,
+                                fontFamily = FontFamily.Serif
+                            ),
+                            cursorBrush = SolidColor(Color.White),
+                            decorationBox = { innerTextField ->
+                                if (searchQuery.isEmpty()) {
+                                    Text(
+                                        text = "ابحث في أغوار أفكارك..",
+                                        color = Color.White.copy(alpha = 0.2f),
+                                        fontSize = 15.sp,
+                                        fontFamily = FontFamily.Serif
+                                    )
+                                }
+                                innerTextField()
+                            }
+                        )
+
+                        if (searchQuery.isNotEmpty()) {
+                            Icon(
+                                imageVector = Icons.Default.Close,
+                                contentDescription = "مسح البحث",
+                                tint = Color.White.copy(alpha = 0.3f),
+                                modifier = Modifier
+                                    .size(16.dp)
+                                    .clickable { searchQuery = "" }
+                            )
+                        }
+                    }
+                }
+
                 // List Section Title
                 Text(
                     text = "التدوينات الأخيرة",
@@ -203,13 +281,13 @@ fun HomeScreen(
 
                 // List of Entries
                 Box(modifier = Modifier.weight(1f)) {
-                    if (entries.isEmpty()) {
+                    if (filteredEntries.isEmpty()) {
                         Box(
                             modifier = Modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "لا توجد تدفّقات فكرية بعد..",
+                                text = if (searchQuery.isEmpty()) "لا توجد تدفّقات فكرية بعد.." else "لا توجد نتائج تطابق بحثك..",
                                 color = Color.White.copy(alpha = 0.2f),
                                 fontSize = 16.sp,
                                 fontFamily = FontFamily.Serif,
@@ -221,11 +299,11 @@ fun HomeScreen(
                             contentPadding = PaddingValues(bottom = 120.dp),
                             verticalArrangement = Arrangement.spacedBy(0.dp)
                         ) {
-                            items(entries) { entry ->
+                            items(filteredEntries) { entry ->
                                 Box(modifier = Modifier.clickable { onEntryClick(entry.id) }) {
                                     JournalEntryItem(entry)
                                 }
-                                HorizontalDivider(color = Color.White.copy(alpha = 0.05f), thickness = 0.5.dp)
+                                Divider(color = Color.White.copy(alpha = 0.05f), thickness = 0.5.dp)
                             }
                         }
                     }
@@ -284,13 +362,9 @@ fun JournalEntryItem(entry: JournalEntry) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
-                    val moodIcon = when (entry.mood) {
-                        "هادئ" -> Icons.Outlined.Brightness3
-                        "متأمل" -> Icons.Outlined.CompassCalibration
-                        "منعزل" -> Icons.Outlined.Cloud
-                        "غارق في الأفكار" -> Icons.Outlined.Waves
-                        else -> Icons.Outlined.Brightness3
-                    }
+                    val mood = MoodRepository.getMoodByLabel(entry.mood)
+                    val moodIcon = mood?.icon ?: Icons.Default.Add
+                    
                     Icon(
                         imageVector = moodIcon,
                         contentDescription = null,
@@ -327,21 +401,4 @@ fun JournalEntryItem(entry: JournalEntry) {
             fontWeight = FontWeight.Light
         )
     }
-}
-
-data class Quote(val text: String, val author: String)
-
-fun getDailyQuote(): Quote {
-    val quotes = listOf(
-        Quote("كل ما أنا عليه هو نتيجة عزلتي.", "فرانز كافكا"),
-        Quote("لم يعد بإمكاني العيش مع هذا الضجيج في رأسي.", "أوسامو دزاي"),
-        Quote("الألم والمعاناة لا مفر منهما دائمًا للعقل الكبير والقلب العميق.", "فيودور دوستويفسكي"),
-        Quote("الخجل من الوجود هو قمة الإنسانية.", "أوسامو دزاي"),
-        Quote("أنا غريب حتى عن نفسي.", "فرانز كافكا"),
-        Quote("الجحيم هو الآخرون.", "جان بول سارتر"),
-        Quote("إنني وحيد دائمًا، حتى وسط المجموعات.", "فيودور دوستويفسكي")
-    )
-    val calendar = Calendar.getInstance()
-    val dayOfYear = calendar.get(Calendar.DAY_OF_YEAR)
-    return quotes[dayOfYear % quotes.size]
 }
